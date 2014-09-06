@@ -25,6 +25,8 @@ public class Diccionario {
     
     public Diccionario(){
         raiz=new BinaryTree<Association<String,String>>();
+        llenarDiccionario();
+        traducirOracion();
     }
     
     public void llenarDiccionario(){
@@ -35,7 +37,7 @@ public class Diccionario {
            // Apertura del fichero y creacion de BufferedReader para poder
            // hacer una lectura comoda (disponer del metodo readLine()).
            //deben cambiarlo para el lugar en sus compus
-           archivo = new File ("C:\\Users\\Daniel\\Documents\\Daniel pers\\U\\Segundo año\\Segundo Semestre\\Estructuras de Datos\\Hojas de Trabajo\\diccionario.txt");
+           archivo = new File ("C:\\Users\\Daniel\\Documents\\Daniel pers\\U\\Segundo año\\Segundo Semestre\\Estructuras de Datos\\Hojas de Trabajo\\HDT7\\diccionario.txt");
            fr = new FileReader (archivo);
            br = new BufferedReader(fr);
 
@@ -103,11 +105,21 @@ public class Diccionario {
 		palabraTraducida=padre.value().getValue();
 	}
 	if(num<0){
-		palabraTraducida=traducirPalabra(padre.right(),palabra);
+            if(padre.right()!=null){
+                palabraTraducida=traducirPalabra(padre.right(),palabra);
+            }else{
+                return ("*"+palabra+"*");
+            }
 	}
 	if(num>0){
-		palabraTraducida=traducirPalabra(padre.left(),palabra);
+            if(padre.left()!=null){
+                    palabraTraducida=traducirPalabra(padre.left(),palabra);
+            }else{
+                    return ("*"+palabra+"*");
+            }
+		
 	}
+
 	return palabraTraducida;
     }
 
@@ -118,7 +130,7 @@ public class Diccionario {
            // Apertura del fichero y creacion de BufferedReader para poder
            // hacer una lectura comoda (disponer del metodo readLine()).
            //deben cambiarlo para el lugar en sus compus
-           archivo = new File ("C:\\Users\\Daniel\\Documents\\Daniel pers\\U\\Segundo año\\Segundo Semestre\\Estructuras de Datos\\Hojas de Trabajo\\diccionario.txt");
+           archivo = new File ("C:\\Users\\Daniel\\Documents\\Daniel pers\\U\\Segundo año\\Segundo Semestre\\Estructuras de Datos\\Hojas de Trabajo\\HDT7\\texto.txt");
            fr = new FileReader (archivo);
            br = new BufferedReader(fr);
 
@@ -156,6 +168,17 @@ public class Diccionario {
             }
         }
      }
+     
+     
+    public void traducirOracion(){
+        leerOracion();
+        String resultado="";
+        for(int i=0; i<oracion.size(); i++){
+                resultado+=traducirPalabra(raiz, oracion.get(i))+" ";
+        }
+        System.out.println(resultado);
+    }
+
 
 
 }

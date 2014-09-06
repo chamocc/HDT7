@@ -11,5 +11,7 @@
  * @author Aaron Giron 13042
  */
 public class Main {
-    
+    public static void main (String[] args){
+        Diccionario miDiccionario=new Diccionario();
+    }
 }
