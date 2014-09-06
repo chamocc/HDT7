@@ -91,5 +91,24 @@ public class Diccionario {
             insertarNodo(padre.right(),dato);
         }
     }
+    
+     private String traducirPalabra(BinaryTree<Association<String,String>> padre, String palabra)
+{
+	String palabraTraducida = "";
+	Association<String,String> asociacion=padre.value();
+       	String llavePadre=asociacion.getKey();
+	int num=llavePadre.compareToIgnoreCase(palabra);
+	if(num==0){
+		palabraTraducida=padre.value().getValue();
+	}
+	if(num<0){
+		palabraTraducida=traducirPalabra(padre.right(),palabra);
+	}
+	if(num>0){
+		palabraTraducida=traducirPalabra(padre.left(),palabra);
+	}
+	return palabraTraducida;
+    }
+
 
 }
