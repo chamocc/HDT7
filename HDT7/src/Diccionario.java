@@ -63,7 +63,9 @@ public class Diccionario {
            }
         }
         //termina codigo tomado dd internet
-        for(int i=0; i<palabras.size();i++){
+        
+        
+        for(int i=0; i<palabras.size()-1;i++){
                int lugar=palabras.get(i).indexOf(',');
                String ingles=palabras.get(i).substring(0,lugar);
                String espaniol=palabras.get(i).substring(lugar,palabras.get(i).length()-1);
@@ -82,15 +84,15 @@ public class Diccionario {
         String llavePadre=asociacion.getKey();
         String llaveDato=dato.getKey();
         int num=llavePadre.compareToIgnoreCase(llaveDato);
-        if(num>0 && padre.left()==null){
+        if(num>0 && padre.left()==padre){
             padre.setLeft(new BinaryTree<Association<String,String>>(dato));
-        }else if(padre.left()!=null){
+        }else if(padre.left()!=padre){
             insertarNodo(padre.left(),dato);
         }
         
-        if(num<0 && padre.right()==null){
+        if(num<0 && padre.right()==padre){
             padre.setLeft(new BinaryTree<Association<String,String>>(dato));
-        }else if(padre.right()!=null){
+        }else if(padre.right()!=padre){
             insertarNodo(padre.right(),dato);
         }
     }
@@ -100,19 +102,21 @@ public class Diccionario {
 	String palabraTraducida = "";
 	Association<String,String> asociacion=padre.value();
        	String llavePadre=asociacion.getKey();
+        System.out.println("llave P "+llavePadre);
+        System.out.println("palabra "+palabra);
 	int num=llavePadre.compareToIgnoreCase(palabra);
 	if(num==0){
 		palabraTraducida=padre.value().getValue();
 	}
 	if(num<0){
-            if(padre.right()!=null){
+            if(padre.right()!=padre){
                 palabraTraducida=traducirPalabra(padre.right(),palabra);
             }else{
                 return ("*"+palabra+"*");
             }
 	}
 	if(num>0){
-            if(padre.left()!=null){
+            if(padre.left()!=padre){
                     palabraTraducida=traducirPalabra(padre.left(),palabra);
             }else{
                     return ("*"+palabra+"*");
@@ -161,7 +165,7 @@ public class Diccionario {
 	int lugar=palabras.indexOf(' ');
             if(lugar!=-1){
                     oracion.add(palabras.substring(0,lugar));
-                    palabras=palabras.substring(lugar);
+                    palabras=palabras.substring(lugar+1);
             }else{
                     oracion.add(palabras);
                     palabras="";
@@ -174,7 +178,7 @@ public class Diccionario {
         leerOracion();
         String resultado="";
         for(int i=0; i<oracion.size(); i++){
-                resultado+=traducirPalabra(raiz, oracion.get(i))+" ";
+                resultado+=traducirPalabra(raiz, oracion.get(i).trim())+" ";
         }
         System.out.println(resultado);
     }
