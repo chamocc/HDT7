@@ -24,8 +24,9 @@ public class Diccionario {
         ArrayList <String> oracion = new ArrayList<String>();
     
     public Diccionario(){
-        raiz=new BinaryTree<Association<String,String>>();
+        raiz=new BinaryTree<Association<String,String>>(null, null, null, null);
         llenarDiccionario();
+        //System.out.println(raiz.right().value().getKey());
         traducirOracion();
     }
     
@@ -68,7 +69,7 @@ public class Diccionario {
         for(int i=0; i<palabras.size()-1;i++){
                int lugar=palabras.get(i).indexOf(',');
                String ingles=palabras.get(i).substring(0,lugar);
-               String espaniol=palabras.get(i).substring(lugar,palabras.get(i).length()-1);
+               String espaniol=palabras.get(i).substring(lugar+1,palabras.get(i).length());
                asociaciones.add(new Association(ingles, espaniol));
         }
         
@@ -80,19 +81,26 @@ public class Diccionario {
     
     private void insertarNodo(BinaryTree<Association<String,String>> padre, Association<String,String> dato)
     {
+        //System.out.println(dato.getKey());
         Association<String,String> asociacion=padre.value();
         String llavePadre=asociacion.getKey();
         String llaveDato=dato.getKey();
         int num=llavePadre.compareToIgnoreCase(llaveDato);
-        if(num>0 && padre.left()==padre){
-            padre.setLeft(new BinaryTree<Association<String,String>>(dato));
-        }else if(padre.left()!=padre){
+        if(num>0 && padre.left()==null){
+            //System.out.println("entre left");
+            padre.setLeft(new BinaryTree<Association<String,String>>(null, null, null,null));
+            padre.left().setValue(dato);
+        }else if(padre.left()!=null){
+            //System.out.println("entre insertar nodo");
             insertarNodo(padre.left(),dato);
         }
         
-        if(num<0 && padre.right()==padre){
-            padre.setLeft(new BinaryTree<Association<String,String>>(dato));
-        }else if(padre.right()!=padre){
+        if(num<0 && padre.right()==null){
+            //System.out.println("entre right");
+            padre.setRight(new BinaryTree<Association<String,String>>(null, null, null,null));
+            padre.right().setValue(dato);
+        }else if(padre.right()!=null){
+            //System.out.println("entre insertar nodo");
             insertarNodo(padre.right(),dato);
         }
     }
@@ -102,21 +110,21 @@ public class Diccionario {
 	String palabraTraducida = "";
 	Association<String,String> asociacion=padre.value();
        	String llavePadre=asociacion.getKey();
-        System.out.println("llave P "+llavePadre);
-        System.out.println("palabra "+palabra);
+        //System.out.println("llave P "+llavePadre);
+        //System.out.println("palabra "+palabra);
 	int num=llavePadre.compareToIgnoreCase(palabra);
 	if(num==0){
 		palabraTraducida=padre.value().getValue();
 	}
 	if(num<0){
-            if(padre.right()!=padre){
+            if(padre.right()!=null){
                 palabraTraducida=traducirPalabra(padre.right(),palabra);
             }else{
                 return ("*"+palabra+"*");
             }
 	}
 	if(num>0){
-            if(padre.left()!=padre){
+            if(padre.left()!=null){
                     palabraTraducida=traducirPalabra(padre.left(),palabra);
             }else{
                     return ("*"+palabra+"*");
