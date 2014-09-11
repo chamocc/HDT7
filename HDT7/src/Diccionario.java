@@ -79,7 +79,7 @@ public class Diccionario {
         }
      }
     
-    private void insertarNodo(BinaryTree<Association<String,String>> padre, Association<String,String> dato)
+    public void insertarNodo(BinaryTree<Association<String,String>> padre, Association<String,String> dato)
     {
         //System.out.println(dato.getKey());
         Association<String,String> asociacion=padre.value();
@@ -105,7 +105,7 @@ public class Diccionario {
         }
     }
     
-     private String traducirPalabra(BinaryTree<Association<String,String>> padre, String palabra)
+     public String traducirPalabra(BinaryTree<Association<String,String>> padre, String palabra)
 {
 	String palabraTraducida = "";
 	Association<String,String> asociacion=padre.value();
